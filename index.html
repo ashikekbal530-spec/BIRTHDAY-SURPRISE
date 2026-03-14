@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Someone Special</title>
+    <style>
+        :root {
+            /* Cyan Theme */
+            --primary-cyan: #00e5ff;
+            --dark-cyan: #00838f;
+            --soft-cyan: #e0f7fa;
+            --bg-gradient: linear-gradient(135deg, #00acc1 0%, #00e5ff 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        /* Music Player */
+        .music-player {
+            background: var(--card-bg);
+            padding: 10px 15px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .container { width: 100%; max-width: 400px; text-align: center; }
+
+        .card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            animation: fadeIn 1.2s ease-out;
+        }
+
+        .main-img {
+            width: 100%;
+            border-radius: 20px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 { font-size: 1.4rem; color: var(--dark-cyan); margin-bottom: 15px; line-height: 1.3; }
+
+        .counter-box {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: white;
+            background: var(--dark-cyan);
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 15px;
+        }
+
+        #surprise-note {
+            display: none;
+            background: var(--soft-cyan);
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 15px;
+            font-style: italic;
+            border-left: 5px solid var(--primary-cyan);
+            animation: slideDown 0.5s ease;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .btn {
+            background: var(--dark-cyan);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: fixed; width: 10px; height: 10px; top: -10px; z-index: 999;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="music-player">
+        <span style="font-size: 1.2rem;">🎵</span>
+        <p style="font-size: 0.8rem; flex-grow: 1;"><b>Playing:</b> Ishq Fanniyar</p>
+        <audio controls style="height: 30px; width: 180px;">
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            Your browser does not support audio.
+        </audio>
+    </div>
+
+    <div class="container">
+        <div class="card">
+            <img src="https://right-rose-1i6wcl238h.edgeone.app/noor%20.jpeg" alt="Her Photo" class="main-img">
+            
+            <h1 id="headline">“Happy Birthday to the girl who makes my world brighter.”</h1>
+            
+            <div class="counter-box" id="display-box">Loading Countdown...</div>
+
+            <button class="btn" onclick="revealMessage()">Tap for a Surprise ✨</button>
+            
+            <div id="surprise-note">
+                Happy Birthday to the most beautiful and amazing person I know. <br><br>
+                You have a way of making every moment brighter just by being yourself. <br><br>
+                I feel lucky to know you, and I hope this year brings you endless happiness and success. <br><br>
+                Enjoy your special day—you deserve it. 🎂❤️
+            </div>
+
+            <a href="https://wa.me/918653147226" class="btn" style="background: #25d366; margin-top: 15px;">Message Me 💬</a>
+        </div>
+    </div>
+
+    <script>
+        const B_MONTH = 2; // March (0=Jan, 1=Feb, 2=Mar)
+        const B_DAY = 15;
+
+        function update() {
+            const now = new Date();
+            const bday = new Date(now.getFullYear(), B_MONTH, B_DAY);
+            
+            if (now.getMonth() === B_MONTH && now.getDate() === B_DAY) {
+                document.getElementById('display-box').innerHTML = "✨ HAPPY BIRTHDAY! ✨";
+                document.getElementById('display-box').style.background = "#ff4081";
+                createConfetti();
+                return;
+            }
+
+            if (now > bday) bday.setFullYear(now.getFullYear() + 1);
+            const diff = bday - now;
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const m = Math.floor((diff / (1000 * 60)) % 60);
+            document.getElementById('display-box').innerHTML = `${d}d : ${h}h : ${m}m Until Your Day! 🎈`;
+        }
+
+        function createConfetti() {
+            const colors = ['#00e5ff', '#ffffff', '#00acc1', '#00838f'];
+            for(let i=0; i<50; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.style.left = Math.random() * 100 + 'vw';
+                c.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+                c.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                document.body.appendChild(c);
+            }
+        }
+
+        function revealMessage() {
+            const note = document.getElementById('surprise-note');
+            note.style.display = (note.style.display === 'block') ? 'none' : 'block';
+            note.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        setInterval(update, 1000);
+        update();
+    </script>
+</body>
+</html>
